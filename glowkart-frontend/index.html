@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GlowKart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivory: #FBF7F1;
+    --ink: #2B2420;
+    --sage: #6B8F71;
+    --sage-light: #E7EFE8;
+    --clay: #C17767;
+    --card-border: #E8E0D6;
+    --muted: #8A8078;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ivory);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  header {
+    padding: 32px 32px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .header-right { display: flex; align-items: center; gap: 12px; }
+
+  .profile-btn {
+    background: white;
+    border: 1px solid var(--card-border);
+    color: var(--ink);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .cart-btn {
+    position: relative;
+    background: var(--ink);
+    color: var(--ivory);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cart-count {
+    background: var(--clay);
+    color: white;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 1px 7px;
+    min-width: 16px;
+    text-align: center;
+  }
+
+  main { max-width: 1200px; margin: 0 auto; padding: 32px; }
+
+  .match-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--sage-light);
+    color: var(--sage);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .banner-left { display: flex; align-items: center; gap: 10px; }
+
+  .edit-link {
+    background: none;
+    border: none;
+    color: var(--sage);
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 22px;
+  }
+
+  .card {
+    background: white;
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px -12px rgba(43, 36, 32, 0.15);
+  }
+
+  .card-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--sage-light);
+    display: block;
+  }
+
+  .card-body {
+    padding: 18px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .card-name {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .card-price { color: var(--clay); font-weight: 600; font-size: 15px; }
+
+  .safe-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--sage);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .add-btn {
+    margin-top: auto;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: var(--ink);
+    color: var(--ivory);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  .add-btn:hover { opacity: 0.85; }
+
+  .status { text-align: center; color: var(--muted); padding: 60px 0; font-size: 14px; grid-column: 1 / -1; }
+
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--ivory);
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+    z-index: 50;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(43, 36, 32, 0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 90;
+  }
+  .overlay.show { opacity: 1; pointer-events: auto; }
+
+  .drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 400px;
+    max-width: 92vw;
+    background: var(--ivory);
+    box-shadow: -12px 0 30px rgba(43,36,32,0.15);
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+  .drawer.show { transform: translateX(0); }
+
+  .drawer-header {
+    padding: 24px;
+    border-bottom: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .drawer-title { font-family: 'Fraunces', serif; font-size: 21px; font-weight: 600; }
+
+  .close-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); }
+
+  .drawer-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+
+  .drawer-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 14px;
+  }
+  .drawer-item-name { font-weight: 500; }
+  .drawer-item-meta { color: var(--muted); font-size: 12px; margin-top: 3px; }
+
+  .qty-controls { display: flex; align-items: center; gap: 8px; }
+  .qty-controls button {
+    width: 24px; height: 24px; border-radius: 6px;
+    border: 1px solid var(--card-border); background: white;
+    cursor: pointer; font-size: 14px; line-height: 1;
+  }
+
+  .drawer-footer { padding: 20px 24px 24px; border-top: 1px solid var(--card-border); }
+
+  .cashback-line { display: flex; justify-content: space-between; font-size: 13px; color: var(--sage); margin-bottom: 6px; }
+
+  .total-line {
+    display: flex; justify-content: space-between;
+    font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600;
+    margin: 12px 0 18px;
+  }
+
+  .checkout-btn {
+    width: 100%; padding: 14px; border: none; border-radius: 10px;
+    background: var(--clay); color: white;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+  .checkout-btn:disabled { background: var(--card-border); color: var(--muted); cursor: not-allowed; }
+
+  .empty-cart { text-align: center; color: var(--muted); font-size: 14px; padding: 40px 0; }
+
+  /* Profile / allergen picker panel (reuses drawer styles) */
+  .profile-section { margin-bottom: 26px; }
+  .profile-label {
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--muted); margin-bottom: 10px;
+  }
+
+  .skin-type-select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    background: white;
+    color: var(--ink);
+  }
+
+  .allergen-list { display: flex; flex-direction: column; gap: 4px; }
+
+  .allergen-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 4px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .allergen-row input { width: 16px; height: 16px; accent-color: var(--sage); cursor: pointer; }
+
+  .apply-btn {
+    width: 100%; padding: 14px; border: none; border-radius: 10px;
+    background: var(--sage); color: white;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+
+  .order-success { text-align: center; padding: 30px 10px; }
+  .order-success .checkmark {
+    width: 48px; height: 48px; background: var(--sage-light); color: var(--sage);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;
+  }
+
+  .card-img { cursor: pointer; }
+  .card-name { cursor: pointer; }
+
+  /* Product detail modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(43, 36, 32, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 110;
+  }
+  .modal-overlay.show { opacity: 1; pointer-events: auto; }
+
+  .modal-box {
+    background: var(--ivory);
+    border-radius: 18px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(12px);
+    transition: transform 0.2s ease;
+  }
+  .modal-overlay.show .modal-box { transform: translateY(0); }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--ink);
+    box-shadow: 0 2px 8px rgba(43,36,32,0.15);
+    z-index: 2;
+  }
+
+  .modal-img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    display: block;
+    border-radius: 18px 18px 0 0;
+  }
+
+  .modal-body { padding: 24px 26px 28px; }
+
+  .modal-name {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .modal-price { color: var(--clay); font-weight: 600; font-size: 18px; margin-bottom: 14px; }
+
+  .modal-desc { font-size: 14px; color: var(--ink); line-height: 1.6; margin-bottom: 18px; }
+
+  .modal-section-label {
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--muted); margin-bottom: 10px;
+  }
+
+  .ingredient-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+
+  .ingredient-pill {
+    background: white;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: var(--ink);
+  }
+
+  .ingredient-pill.flagged {
+    background: #FBEAE7;
+    border-color: #E8C4BC;
+    color: var(--clay);
+  }
+
+  /* Auth modal */
+  .auth-box { padding: 30px 30px 34px; }
+  .auth-title { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+  .auth-subtitle { color: var(--muted); font-size: 13px; margin-bottom: 22px; }
+
+  .auth-field { margin-bottom: 14px; }
+  .auth-field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .auth-field input {
+    width: 100%;
+    padding: 11px 13px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    background: white;
+    color: var(--ink);
+  }
+
+  .auth-error {
+    background: #FBEAE7;
+    color: var(--clay);
+    font-size: 13px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    display: none;
+  }
+  .auth-error.show { display: block; }
+
+  .auth-submit {
+    width: 100%; padding: 13px; border: none; border-radius: 10px;
+    background: var(--ink); color: var(--ivory);
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer;
+    margin-top: 6px;
+  }
+  .auth-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .auth-switch { text-align: center; font-size: 13px; color: var(--muted); margin-top: 16px; }
+  .auth-switch button { background: none; border: none; color: var(--sage); font-weight: 600; cursor: pointer; padding: 0; font-size: 13px; }
+
+  .user-pill {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--ink); background: white;
+    border: 1px solid var(--card-border); border-radius: 8px; padding: 9px 14px;
+  }
+  .user-pill button { background: none; border: none; color: var(--muted); font-size: 12px; text-decoration: underline; cursor: pointer; padding: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">GlowKart</div>
+  <div class="header-right" id="headerRight">
+    <button class="profile-btn" id="profileBtn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 12c2.5 0 4.5-2 4.5-4.5S14.5 3 12 3 7.5 5 7.5 7.5 9.5 12 12 12Zm0 2c-3.3 0-9 1.7-9 5v2h18v-2c0-3.3-5.7-5-9-5Z" fill="currentColor"/></svg>
+      My skin profile
+    </button>
+    <button class="profile-btn" id="authBtn">Log in</button>
+    <button class="cart-btn" id="cartBtn">Cart <span class="cart-count" id="cartCount">0</span></button>
+  </div>
+</header>
+
+<main>
+  <div class="match-banner">
+    <div class="banner-left">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span id="bannerText">Showing all products. Set your allergens to see a personalized match.</span>
+    </div>
+    <button class="edit-link" id="editProfileLink">Set your allergens</button>
+  </div>
+
+  <div id="grid" class="grid">
+    <div class="status">Loading products…</div>
+  </div>
+</main>
+
+<!-- CART DRAWER -->
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <div class="drawer-title">Your Cart</div>
+    <button class="close-btn" id="closeDrawer">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerItems">
+    <div class="empty-cart">Your cart is empty</div>
+  </div>
+  <div class="drawer-footer" id="drawerFooter" style="display:none;">
+    <div class="total-line"><span>Total</span><span id="totalAmount">₹0</span></div>
+    <button class="checkout-btn" id="checkoutBtn">Place order</button>
+  </div>
+</div>
+
+<!-- PROFILE / ALLERGEN DRAWER -->
+<div class="overlay" id="profileOverlay"></div>
+<div class="drawer" id="profileDrawer">
+  <div class="drawer-header">
+    <div class="drawer-title">My Skin Profile</div>
+    <button class="close-btn" id="closeProfileDrawer">✕</button>
+  </div>
+  <div class="drawer-body">
+    <div class="profile-section">
+      <div class="profile-label">Skin type</div>
+      <select class="skin-type-select" id="skinTypeSelect">
+        <option value="normal">Normal</option>
+        <option value="oily">Oily</option>
+        <option value="dry">Dry</option>
+        <option value="combination">Combination</option>
+        <option value="sensitive">Sensitive</option>
+      </select>
+    </div>
+    <div class="profile-section">
+      <div class="profile-label">I'm allergic to / want to avoid</div>
+      <div class="allergen-list" id="allergenList">
+        <div class="status" style="padding:20px 0;">Loading ingredients…</div>
+      </div>
+    </div>
+  </div>
+  <div class="drawer-footer">
+    <button class="apply-btn" id="applyProfileBtn">Apply and show matches</button>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authOverlay">
+  <div class="modal-box" id="authBox" style="max-width:400px;">
+    <button class="modal-close" id="authClose">✕</button>
+    <div class="auth-box" id="authContent"></div>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const API_BASE = "https://glowkart-backend-koi8.onrender.com";
+  const grid = document.getElementById("grid");
+  const toast = document.getElementById("toast");
+
+  // Cart drawer elements
+  const drawer = document.getElementById("drawer");
+  const overlay = document.getElementById("overlay");
+  const cartCount = document.getElementById("cartCount");
+  const drawerItems = document.getElementById("drawerItems");
+  const drawerFooter = document.getElementById("drawerFooter");
+  const totalAmount = document.getElementById("totalAmount");
+
+  // Profile drawer elements
+  const profileDrawer = document.getElementById("profileDrawer");
+  const profileOverlay = document.getElementById("profileOverlay");
+  const allergenList = document.getElementById("allergenList");
+  const skinTypeSelect = document.getElementById("skinTypeSelect");
+  const bannerText = document.getElementById("bannerText");
+
+  // Cart lives in memory only — resets on refresh, which is fine for this stage.
+  let cart = [];
+  let currentProducts = [];
+  let selectedAllergens = []; // e.g. ["sulfate", "alcohol"]
+
+  // Deterministic placeholder image per product — same product always gets the same image.
+  function imageFor(productId, name) {
+    return `https://picsum.photos/seed/glowkart-${productId}/400/300`;
+  }
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2200);
+  }
+
+  // ---------- Load ingredients into the allergen checklist ----------
+  async function loadIngredients() {
+    try {
+      const res = await fetch(`${API_BASE}/ingredients`);
+      const ingredients = await res.json();
+      allergenList.innerHTML = ingredients.map(ing => `
+        <label class="allergen-row">
+          <input type="checkbox" value="${ing.ingredient_name}" class="allergen-checkbox">
+          ${ing.ingredient_name}
+        </label>
+      `).join("");
+    } catch (err) {
+      allergenList.innerHTML = '<div class="status" style="padding:20px 0;">Could not load ingredients.</div>';
+    }
+  }
+
+  // ---------- Load products (filtered by selected allergens, if any) ----------
+  async function loadProducts() {
+    grid.innerHTML = '<div class="status">Loading products…</div>';
+    try {
+      const query = selectedAllergens.length
+        ? `?allergens=${encodeURIComponent(selectedAllergens.join(","))}`
+        : "";
+      const res = await fetch(`${API_BASE}/products/recommended${query}`);
+      if (!res.ok) throw new Error("Request failed");
+      currentProducts = await res.json();
+      renderProducts(currentProducts);
+    } catch (err) {
+      grid.innerHTML = `<div class="status">Couldn't reach the GlowKart API. Make sure your FastAPI server is running at ${API_BASE}.</div>`;
+    }
+  }
+
+  function renderProducts(products) {
+    if (products.length === 0) {
+      grid.innerHTML = '<div class="status">No matching products found — try unchecking an allergen.</div>';
+      return;
+    }
+    grid.innerHTML = products.map(p => `
+      <div class="card">
+        <img class="card-img" src="${imageFor(p.product_id, p.name)}" alt="${p.name}" loading="lazy" onclick="openProductDetail(${p.product_id})">
+        <div class="card-body">
+          ${selectedAllergens.length ? `
+          <span class="safe-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Skin-safe match
+          </span>` : ''}
+          <div class="card-name" onclick="openProductDetail(${p.product_id})">${p.name}</div>
+          <div class="card-price">₹${p.price.toFixed(2)}</div>
+          <button class="add-btn" onclick="addToCart(${p.product_id})">Add to cart</button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  // ---------- Product detail modal ----------
+  const modalOverlay = document.getElementById("modalOverlay");
+  const modalContent = document.getElementById("modalContent");
+
+  async function openProductDetail(productId) {
+    modalContent.innerHTML = `<div class="status" style="padding:60px 0;">Loading…</div>`;
+    modalOverlay.classList.add("show");
+
+    try {
+      const res = await fetch(`${API_BASE}/products/${productId}`);
+      if (!res.ok) throw new Error("Could not load product");
+      const p = await res.json();
+
+      const ingredientPills = (p.ingredients || []).map(name => {
+        const isFlagged = selectedAllergens.includes(name.toLowerCase());
+        return `<span class="ingredient-pill${isFlagged ? ' flagged' : ''}">${name}</span>`;
+      }).join("");
+
+      modalContent.innerHTML = `
+        <img class="modal-img" src="${imageFor(p.product_id, p.name)}" alt="${p.name}">
+        <div class="modal-body">
+          <div class="modal-name">${p.name}</div>
+          <div class="modal-price">₹${p.price.toFixed(2)} &nbsp;·&nbsp; ${p.stock} in stock</div>
+          <div class="modal-desc">${p.description || ''}</div>
+          <div class="modal-section-label">Ingredients</div>
+          <div class="ingredient-pills">${ingredientPills || '<span class="ingredient-pill">Not listed</span>'}</div>
+          <button class="add-btn" style="width:100%;" onclick="addToCart(${p.product_id}); closeProductDetail();">Add to cart</button>
+        </div>
+      `;
+    } catch (err) {
+      modalContent.innerHTML = `<div class="status" style="padding:60px 20px;">Couldn't load this product.</div>`;
+    }
+  }
+
+  function closeProductDetail() {
+    modalOverlay.classList.remove("show");
+  }
+
+  document.getElementById("modalClose").addEventListener("click", closeProductDetail);
+  modalOverlay.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) closeProductDetail();
+  });
+
+  function addToCart(productId) {
+    const product = currentProducts.find(p => p.product_id === productId);
+    if (!product) return;
+    const existing = cart.find(item => item.product_id === productId);
+    if (existing) { existing.quantity += 1; }
+    else { cart.push({ product_id: product.product_id, name: product.name, price: product.price, quantity: 1 }); }
+    showToast(`${product.name} added to cart`);
+    renderCart();
+  }
+
+  function changeQty(productId, delta) {
+    const item = cart.find(i => i.product_id === productId);
+    if (!item) return;
+    item.quantity += delta;
+    if (item.quantity <= 0) cart = cart.filter(i => i.product_id !== productId);
+    renderCart();
+  }
+
+  function renderCart() {
+    const totalItems = cart.reduce((sum, i) => sum + i.quantity, 0);
+    cartCount.textContent = totalItems;
+    if (cart.length === 0) {
+      drawerItems.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
+      drawerFooter.style.display = "none";
+      return;
+    }
+    drawerItems.innerHTML = cart.map(item => `
+      <div class="drawer-item">
+        <div>
+          <div class="drawer-item-name">${item.name}</div>
+          <div class="drawer-item-meta">₹${item.price.toFixed(2)} each</div>
+        </div>
+        <div class="qty-controls">
+          <button onclick="changeQty(${item.product_id}, -1)">−</button>
+          <span>${item.quantity}</span>
+          <button onclick="changeQty(${item.product_id}, 1)">+</button>
+        </div>
+      </div>
+    `).join("");
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    totalAmount.textContent = `₹${subtotal.toFixed(2)}`;
+    drawerFooter.style.display = "block";
+  }
+
+  // ---------- Auth state ----------
+  let currentUser = null;
+
+  const authOverlay = document.getElementById("authOverlay");
+  const authContent = document.getElementById("authContent");
+
+  function renderLoginForm() {
+    authContent.innerHTML = `
+      <div class="auth-title">Log in</div>
+      <div class="auth-subtitle">Welcome back to GlowKart</div>
+      <div class="auth-error" id="authError"></div>
+      <div class="auth-field"><label>Email</label><input type="email" id="loginEmail" placeholder="you@example.com"></div>
+      <div class="auth-field"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
+      <button class="auth-submit" id="loginSubmit">Log in</button>
+      <div class="auth-switch">New here? <button id="showSignup">Create an account</button></div>
+    `;
+    document.getElementById("loginSubmit").addEventListener("click", handleLogin);
+    document.getElementById("showSignup").addEventListener("click", renderSignupForm);
+  }
+
+  function renderSignupForm() {
+    authContent.innerHTML = `
+      <div class="auth-title">Create account</div>
+      <div class="auth-subtitle">Join GlowKart</div>
+      <div class="auth-error" id="authError"></div>
+      <div class="auth-field"><label>Name</label><input type="text" id="signupName" placeholder="Your name"></div>
+      <div class="auth-field"><label>Email</label><input type="email" id="signupEmail" placeholder="you@example.com"></div>
+      <div class="auth-field"><label>Password</label><input type="password" id="signupPassword" placeholder="At least 6 characters"></div>
+      <button class="auth-submit" id="signupSubmit">Sign up</button>
+      <div class="auth-switch">Already have an account? <button id="showLogin">Log in</button></div>
+    `;
+    document.getElementById("signupSubmit").addEventListener("click", handleSignup);
+    document.getElementById("showLogin").addEventListener("click", renderLoginForm);
+  }
+
+  function showAuthError(message) {
+    const errBox = document.getElementById("authError");
+    if (errBox) { errBox.textContent = message; errBox.classList.add("show"); }
+  }
+
+  async function handleLogin() {
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    const btn = document.getElementById("loginSubmit");
+    btn.disabled = true; btn.textContent = "Logging in…";
+    try {
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Login failed");
+      currentUser = data;
+      await restoreSkinProfile(); // load their saved allergens from DB
+      onLoginSuccess();
+    } catch (err) {
+      showAuthError(err.message);
+      btn.disabled = false; btn.textContent = "Log in";
+    }
+  }
+
+  async function handleSignup() {
+    const name = document.getElementById("signupName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value;
+    const btn = document.getElementById("signupSubmit");
+    if (!name || !email || password.length < 6) {
+      showAuthError("Please fill every field — password needs at least 6 characters.");
+      return;
+    }
+    btn.disabled = true; btn.textContent = "Creating account…";
+    try {
+      const res = await fetch(`${API_BASE}/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Signup failed");
+      currentUser = data;
+      onLoginSuccess();
+    } catch (err) {
+      showAuthError(err.message);
+      btn.disabled = false; btn.textContent = "Sign up";
+    }
+  }
+
+  // Fetch this user's saved allergens from PostgreSQL and restore them to the UI
+  async function restoreSkinProfile() {
+    try {
+      const res = await fetch(`${API_BASE}/skin-profile/${currentUser.user_id}`);
+      if (!res.ok) return;
+      const profile = await res.json();
+      selectedAllergens = profile.allergens;
+      // Tick the matching checkboxes in the allergen picker
+      document.querySelectorAll(".allergen-checkbox").forEach(cb => {
+        cb.checked = selectedAllergens.includes(cb.value);
+      });
+      // Update the skin type dropdown
+      const skinSelect = document.getElementById("skinTypeSelect");
+      if (skinSelect) skinSelect.value = profile.skin_type;
+      // Refresh the banner text
+      if (selectedAllergens.length > 0) {
+        bannerText.textContent = `Showing products matched to your skin profile — nothing here contains: ${selectedAllergens.join(", ")}.`;
+      }
+    } catch (e) { /* silently ignore if profile not found */ }
+  }
+
+  // Save the current allergen selection to PostgreSQL (only when logged in)
+  async function saveSkinProfile() {
+    if (!currentUser) return;
+    const skinType = document.getElementById("skinTypeSelect")?.value || "normal";
+    await fetch(`${API_BASE}/skin-profile`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: currentUser.user_id,
+        skin_type: skinType,
+        allergens: selectedAllergens
+      })
+    });
+  }
+
+  function onLoginSuccess() {
+    authOverlay.classList.remove("show");
+    updateAuthUI();
+    loadProducts(); // refresh products with their saved allergens
+    showToast(`Welcome, ${currentUser.name}`);
+  }
+
+  function logout() {
+    currentUser = null;
+    selectedAllergens = [];
+    bannerText.textContent = "Showing all products. Set your allergens to see a personalized match.";
+    updateAuthUI();
+    loadProducts();
+    showToast("Logged out");
+  }
+
+  // FIX: use inline onclick strings instead of addEventListener after outerHTML swap,
+  // so there's never a stale DOM reference — the function name is looked up fresh each click.
+  function updateAuthUI() {
+    const btn = document.getElementById("authBtn");
+    if (!btn) return;
+    if (currentUser) {
+      btn.outerHTML = `<div class="user-pill" id="authBtn">${currentUser.name} <button onclick="logout()">Log out</button></div>`;
+    } else {
+      btn.outerHTML = `<button class="profile-btn" id="authBtn" onclick="openAuthModal()">Log in</button>`;
+    }
+  }
+
+  function openAuthModal() {
+    renderLoginForm();
+    authOverlay.classList.add("show");
+  }
+
+  // Make logout and openAuthModal global so inline onclick can reach them
+  window.logout = logout;
+  window.openAuthModal = openAuthModal;
+
+  document.getElementById("authClose").addEventListener("click", () => authOverlay.classList.remove("show"));
+  authOverlay.addEventListener("click", (e) => { if (e.target === authOverlay) authOverlay.classList.remove("show"); });
+
+  // ---------- Cart drawer open/close ----------
+  document.getElementById("cartBtn").addEventListener("click", () => {
+    drawer.classList.add("show"); overlay.classList.add("show");
+  });
+  document.getElementById("closeDrawer").addEventListener("click", () => {
+    drawer.classList.remove("show"); overlay.classList.remove("show");
+  });
+  overlay.addEventListener("click", () => {
+    drawer.classList.remove("show"); overlay.classList.remove("show");
+  });
+
+  // ---------- Profile drawer open/close ----------
+  function openProfileDrawer() {
+    profileDrawer.classList.add("show"); profileOverlay.classList.add("show");
+  }
+  function closeProfileDrawer() {
+    profileDrawer.classList.remove("show"); profileOverlay.classList.remove("show");
+  }
+  document.getElementById("profileBtn").addEventListener("click", openProfileDrawer);
+  document.getElementById("editProfileLink").addEventListener("click", openProfileDrawer);
+  document.getElementById("closeProfileDrawer").addEventListener("click", closeProfileDrawer);
+  profileOverlay.addEventListener("click", closeProfileDrawer);
+
+  // ---------- Apply selected allergens ----------
+  document.getElementById("applyProfileBtn").addEventListener("click", async () => {
+    const checked = Array.from(document.querySelectorAll(".allergen-checkbox:checked"));
+    selectedAllergens = checked.map(cb => cb.value);
+
+    if (selectedAllergens.length > 0) {
+      bannerText.textContent = `Showing products matched to your skin profile — nothing here contains: ${selectedAllergens.join(", ")}.`;
+    } else {
+      bannerText.textContent = "Showing all products. Set your allergens to see a personalized match.";
+    }
+
+    // If logged in, save to PostgreSQL so it's remembered next time
+    if (currentUser) {
+      await saveSkinProfile();
+      showToast("Skin profile saved");
+    }
+
+    closeProfileDrawer();
+    loadProducts();
+  });
+
+  // ---------- Checkout ----------
+  document.getElementById("checkoutBtn").addEventListener("click", async () => {
+    if (!currentUser) {
+      showToast("Please log in to place an order");
+      openAuthModal();
+      return;
+    }
+
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    checkoutBtn.disabled = true;
+    checkoutBtn.textContent = "Placing order…";
+
+    const payload = {
+      user_id: currentUser.user_id,
+      items: cart.map(item => ({ product_id: item.product_id, quantity: item.quantity }))
+    };
+
+    try {
+      const res = await fetch(`${API_BASE}/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.detail || "Order failed");
+      }
+      const order = await res.json();
+
+      drawerItems.innerHTML = `
+        <div class="order-success">
+          <div class="checkmark">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div style="font-family:'Fraunces',serif; font-size:19px; font-weight:600; margin-bottom:6px;">Order placed</div>
+          <div style="color:var(--muted); font-size:13px;">Order #${order.order_id}</div>
+          ${order.cashback_applied > 0 ? `<div class="cashback-line" style="justify-content:center; margin-top:12px;">Bottle-return cashback applied: −₹${order.cashback_applied.toFixed(2)}</div>` : ''}
+          <div style="font-family:'Fraunces',serif; font-size:22px; font-weight:600; margin-top:10px;">₹${order.final_total.toFixed(2)}</div>
+        </div>
+      `;
+      drawerFooter.style.display = "none";
+      cart = [];
+      cartCount.textContent = "0";
+    } catch (err) {
+      showToast(err.message || "Something went wrong placing your order");
+    } finally {
+      checkoutBtn.disabled = false;
+      checkoutBtn.textContent = "Place order";
+    }
+  });
+
+  // ---------- Initial load ----------
+  loadIngredients();
+  loadProducts();
+  updateAuthUI();
+</script>
+
+</body>
+</html>

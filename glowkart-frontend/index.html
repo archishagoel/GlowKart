@@ -596,10 +596,32 @@
   let currentProducts = [];
   let selectedAllergens = []; // e.g. ["sulfate", "alcohol"]
 
-  // Deterministic placeholder image per product — same product always gets the same image.
-  function imageFor(productId, name) {
-    return `https://picsum.photos/seed/glowkart-${productId}/400/300`;
-  }
+  const productImages = {
+  1:  "https://unsplash.com/photos/white-plastic-bottle-on-blue-surface-oFgXybl7z3E", // Gentle Foaming Cleanser
+  2:  "https://unsplash.com/photos/white-and-gray-round-plastic-container-QTGB4D8kDoc", // Hydrating Night Cream
+  3:  "https://unsplash.com/photos/a-young-woman-applies-a-drop-of-oil-from-a-pipette-to-her-scalp-close-up-vitamins-keratin-for-treatment-strengthening-and-growth-of-hair-problems-with-dandruff-hair-loss-hair-care-concept-IRgCGccftWQ", // Anti-Frizz Hair Serum
+  4:  "https://unsplash.com/photos/red-and-white-heart-shaped-decor-crSkE1CKQL0", // Matte Liquid Lipstick
+  5:  "https://unsplash.com/photos/a-woman-holding-a-bottle-_dSHqe4mcWE", // Alcohol-Free Toner
+  6:  "https://unsplash.com/photos/a-bottle-of-vitamin-oil-sitting-on-top-of-an-orange-QNluk5NUchk", // Vitamin C Brightening Serum
+  7:  "https://unsplash.com/photos/a-bottle-of-niacinmide-sitting-on-top-of-a-table-q2yfAYusZJI", // Niacinamide 10% Serum
+  8:  "https://unsplash.com/photos/white-plastic-bottle-on-white-table-A-eV95evtV8", // Salicylic Acid Acne Gel
+  9:  "https://unsplash.com/photos/retinol-serum-bottle-with-dropper-on-display-stand-tOv0V_U-qTs", // Retinol Night Serum
+  10: "https://unsplash.com/photos/a-white-tube-of-lotion-next-to-a-green-heart-OhWzeWoDwp4", // Mineral SPF 50 Sunscreen
+  11: "https://unsplash.com/photos/a-bottle-of-liquor-coE-z7_L2xU", // Silk Shine Hair Oil
+  12: "https://unsplash.com/photos/truffle-moisturizing-shampoo-bottle-nestled-among-green-leaves-B3rZag5d6EY", // Sulfate-Free Shampoo
+  13: "https://unsplash.com/photos/a-woman-holding-a-tube-of-cream-in-front-of-her-face-MESnwhIgm0c", // Deep Conditioning Hair Mask
+  14: "https://unsplash.com/photos/a-compact-compact-compact-compact-compact-compact-compact-compact-compact-compact-compact-compact-compact-compact-compact-dxTR8BboRPA", // Matte Compact Powder
+  15: "https://unsplash.com/photos/a-bottle-of-nail-polish-NfZn4uSjZMA", // Tinted Lip Balm
+  16: "https://unsplash.com/photos/a-close-up-of-a-lipstick-jvgtNgShmFo", // Waterproof Mascara
+  17: "https://unsplash.com/photos/a-tube-of-body-lotion-sitting-on-top-of-a-table-fVXe4UXX5RI", // Shea Butter Body Lotion
+  18: "https://unsplash.com/photos/a-bottle-of-soap-sitting-on-top-of-a-book-2Po3Gx_jq2k", // Aromatherapy Body Wash
+  19: "https://unsplash.com/photos/a-table-topped-with-jars-filled-with-different-types-of-items-0BDXcx0Q2fc", // Exfoliating Body Scrub
+};
+
+function imageFor(productId, name) {
+  return productImages[productId] 
+    || `https://picsum.photos/seed/glowkart-${productId}/400/300`;
+}
 
   function showToast(message) {
     toast.textContent = message;

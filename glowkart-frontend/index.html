@@ -597,29 +597,29 @@
   let selectedAllergens = []; // e.g. ["sulfate", "alcohol"]
 
   const productImages = {
-  1:  "https://unsplash.com/photos/white-plastic-bottle-on-blue-surface-oFgXybl7z3E", // Gentle Foaming Cleanser
-  2:  "https://unsplash.com/photos/white-and-gray-round-plastic-container-QTGB4D8kDoc", // Hydrating Night Cream
-  3:  "https://unsplash.com/photos/a-young-woman-applies-a-drop-of-oil-from-a-pipette-to-her-scalp-close-up-vitamins-keratin-for-treatment-strengthening-and-growth-of-hair-problems-with-dandruff-hair-loss-hair-care-concept-IRgCGccftWQ", // Anti-Frizz Hair Serum
-  4:  "https://unsplash.com/photos/red-and-white-heart-shaped-decor-crSkE1CKQL0", // Matte Liquid Lipstick
-  5:  "https://unsplash.com/photos/a-woman-holding-a-bottle-_dSHqe4mcWE", // Alcohol-Free Toner
-  6:  "https://unsplash.com/photos/a-bottle-of-vitamin-oil-sitting-on-top-of-an-orange-QNluk5NUchk", // Vitamin C Brightening Serum
-  7:  "https://unsplash.com/photos/a-bottle-of-niacinmide-sitting-on-top-of-a-table-q2yfAYusZJI", // Niacinamide 10% Serum
-  8:  "https://unsplash.com/photos/white-plastic-bottle-on-white-table-A-eV95evtV8", // Salicylic Acid Acne Gel
-  9:  "https://unsplash.com/photos/retinol-serum-bottle-with-dropper-on-display-stand-tOv0V_U-qTs", // Retinol Night Serum
-  10: "https://unsplash.com/photos/a-white-tube-of-lotion-next-to-a-green-heart-OhWzeWoDwp4", // Mineral SPF 50 Sunscreen
-  11: "https://unsplash.com/photos/a-bottle-of-liquor-coE-z7_L2xU", // Silk Shine Hair Oil
-  12: "https://unsplash.com/photos/truffle-moisturizing-shampoo-bottle-nestled-among-green-leaves-B3rZag5d6EY", // Sulfate-Free Shampoo
-  13: "https://unsplash.com/photos/a-woman-holding-a-tube-of-cream-in-front-of-her-face-MESnwhIgm0c", // Deep Conditioning Hair Mask
-  14: "https://unsplash.com/photos/a-compact-compact-compact-compact-compact-compact-compact-compact-compact-compact-compact-compact-compact-compact-compact-dxTR8BboRPA", // Matte Compact Powder
-  15: "https://unsplash.com/photos/a-bottle-of-nail-polish-NfZn4uSjZMA", // Tinted Lip Balm
-  16: "https://unsplash.com/photos/a-close-up-of-a-lipstick-jvgtNgShmFo", // Waterproof Mascara
-  17: "https://unsplash.com/photos/a-tube-of-body-lotion-sitting-on-top-of-a-table-fVXe4UXX5RI", // Shea Butter Body Lotion
-  18: "https://unsplash.com/photos/a-bottle-of-soap-sitting-on-top-of-a-book-2Po3Gx_jq2k", // Aromatherapy Body Wash
-  19: "https://unsplash.com/photos/a-table-topped-with-jars-filled-with-different-types-of-items-0BDXcx0Q2fc", // Exfoliating Body Scrub
+  1:  "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400", // Cleanser
+  2:  "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400", // Night Cream
+  3:  "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400", // Hair Serum
+  4:  "https://images.unsplash.com/photo-1586495777744-4e6232bf2a40?w=400", // Lipstick
+  5:  "https://images.unsplash.com/photo-1570194065650-d99fb4b8ccb0?w=400", // Toner
+  6:  "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab12?w=400", // Vitamin C Serum
+  7:  "https://images.unsplash.com/photo-1643185539104-3622eb1f0c2e?w=400", // Niacinamide
+  8:  "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400", // Salicylic Gel
+  9:  "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=400", // Retinol Serum
+  10: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400", // Sunscreen
+  11: "https://images.unsplash.com/photo-1585751119414-ef2636f8aede?w=400", // Hair Oil
+  12: "https://images.unsplash.com/photo-1585751119414-ef2636f8aede?w=400", // Shampoo
+  13: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400", // Hair Mask
+  14: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400", // Compact Powder
+  15: "https://images.unsplash.com/photo-1609357605129-74f8d4c5f5b1?w=400", // Lip Balm
+  16: "https://images.unsplash.com/photo-1512207736890-6ffed8a84e8d?w=400", // Mascara
+  17: "https://images.unsplash.com/photo-1631390651552-9e9c5a05cc9e?w=400", // Body Lotion
+  18: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=400", // Body Wash
+  19: "https://images.unsplash.com/photo-1599305090598-fe179d501227?w=400", // Body Scrub
 };
 
 function imageFor(productId, name) {
-  return productImages[productId] 
+  return productImages[productId]
     || `https://picsum.photos/seed/glowkart-${productId}/400/300`;
 }
 
